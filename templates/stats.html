@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Статистика</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+         <h2>Общая статистика пользователей</h2>
+         <table class="table">
+            <thead>
+                <tr>
+                    <th>ID Пользователя</th>
+                    <th>Количество сообщений</th>
+                    <th>Количество дней</th>
+                    <th>Количество месяцев</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_stats %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.messages }}</td>
+                        <td>{{ user.days }}</td>
+                        <td>{{ user.months }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Статистика по командам</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Команда</th>
+                    <th>Описание</th>
+                    <th>Количество использований</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for command in command_stats %}
+                    <tr>
+                        <td>{{ command.command }}</td>
+                        <td>
+                        {% if command.command == '/start' %}
+                            Начало работы с ботом
+                        {% elif command.command == '/help' %}
+                            Получение списка доступных команд
+                        {% elif command.command == '/game1' %}
+                            Начало игры в "Бредослова"
+                        {% elif command.command == 'game1_move' %}
+                            Ход в игре "Бредослова"
+                         {% elif command.command == 'game1_stop' %}
+                             Конец игры в "Бредослова"
+                         {% elif command.command == 'game1_invalid_move' %}
+                            Некорректный ход в игре "Бредослова"
+                        {% elif command.command == '/game2' %}
+                            Начало игры "Угадай слово"
+                       {% elif command.command == 'game2_correct_move' %}
+                            Корректный ход в игре "Угадай слово"
+                        {% elif command.command == 'game2_incorrect_move' %}
+                            Некорректный ход в игре "Угадай слово"
+                         {% elif command.command == 'game2_repeated_move' %}
+                            Повторный ход в игре "Угадай слово"
+                       {% elif command.command == 'game2_win' %}
+                            Победа в игре "Угадай слово"
+                          {% elif command.command == '/stop' %}
+                             Остановка игры "Угадай слово"
+                        {% elif command.command == '/wish' %}
+                           Получить пожелание
+                        {% elif command.command == '/wish_empty' %}
+                           Нет пожеланий
+                         {% elif command.command == '/wish_error' %}
+                           Ошибка при получении пожелания
+                        {% elif command.command == 'random_fact' %}
+                            Получение случайного факта
+                         {% elif command.command == None %}
+                              Сообщение без команды
+                        {% else %}
+                             Сообщение без команды
+                        {% endif %}
+                         </td>
+                        <td>{{ command.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+          {% if plot_url %}
+                <h2>Сообщения по дням</h2>
+                <img src="data:image/png;base64,{{ plot_url }}" class="img-fluid" alt="График сообщений по дням">
+            {% endif %}
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Назад</a>
+    </div>
+</body>
+</html>
