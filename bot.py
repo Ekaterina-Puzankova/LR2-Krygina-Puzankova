@@ -206,4 +206,5 @@ def handle_all_messages(message):
     if not message.text.startswith('/'):
          log_message(message)
 
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
